@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Inspired Interactive Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        }
+        header {
+            background: #6a89cc;
+            color: white;
+            padding: 1em;
+        }
+        canvas {
+            border: 1px solid #6a89cc;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #38ada9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #3c6382;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Interactive Canvas Drawing App</h1>
+        <p>Draw, explore colors, and reset your canvas!</p>
+    </header>
+
+    <canvas id="drawingCanvas" width="800" height="400"></canvas>
+    <div>
+        <button id="clearCanvas">Clear Canvas</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const clearButton = document.getElementById('clearCanvas');
+
+        let isDrawing = false;
+
+        const getRandomColor = () => {
+            return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
+        };
+
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener('mousemove', (e) => {
+            if (isDrawing) {
+                ctx.strokeStyle = getRandomColor();
+                ctx.lineWidth = 5;
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
+            }
+        });
+
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+            ctx.closePath();
+        });
+
+        clearButton.addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    </script>
+</body>
+</html>
